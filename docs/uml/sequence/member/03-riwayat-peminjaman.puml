@@ -1,0 +1,19 @@
+@startuml
+title Riwayat Peminjaman
+autonumber
+actor Member as A
+participant "Halaman Riwayat" as H
+participant "Sistem" as S
+participant "Data Peminjaman" as P
+database "Database" as DB
+
+A -> H : Buka riwayat peminjaman
+H -> S : Minta riwayat milik member
+S -> P : Ambil peminjaman member yang login
+P -> DB : Baca data peminjaman member
+DB --> P : Daftar peminjaman
+P --> S : Riwayat peminjaman
+S -> S : Urutkan dari yang terbaru
+S --> H : Tampilkan riwayat
+H --> A : Kode pinjam, judul buku, tanggal pinjam,\njatuh tempo, tanggal kembali, status, denda
+@enduml

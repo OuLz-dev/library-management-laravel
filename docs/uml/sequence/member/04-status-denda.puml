@@ -1,0 +1,18 @@
+@startuml
+title Status Denda
+autonumber
+actor Member as A
+participant "Halaman Denda" as H
+participant "Sistem" as S
+participant "Data Denda" as D
+database "Database" as DB
+
+A -> H : Buka status denda
+H -> S : Minta data denda member
+S -> D : Ambil denda milik member
+D -> DB : Baca data denda member
+DB --> D : Daftar denda
+S -> S : Hitung total denda yang belum dibayar
+S --> H : Tampilkan total dan daftar denda
+H --> A : Judul buku, keterlambatan,\njumlah denda, status lunas/belum
+@enduml

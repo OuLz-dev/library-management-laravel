@@ -1,0 +1,168 @@
+@startuml class-diagram
+title Class Diagram - Sistem Perpustakaan
+' Sumber: app/Models/*.php + database/migrations/*_create_*.php + config/perpustakaan.php
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam linetype ortho
+
+package "App\\Models" {
+
+  class User <<Authenticatable>> {
+    + id : bigint <<PK>>
+    + name : string
+    + email : string <<unique>>
+    + email_verified_at : timestamp <<nullable>>
+    + password : string
+    + role : enum(admin, member)
+    + status : enum(active, inactive)
+    + phone : string(15) <<nullable>>
+    + address : text <<nullable>>
+    + member_code : string(50) <<unique, nullable>>
+    + join_date : date <<nullable>>
+    + last_login_at : timestamp <<nullable>>
+    + remember_token : string <<nullable>>
+    + created_at : timestamp
+    + updated_at : timestamp
+    --
+    # booted() : void {static}
+    + isAdmin() : bool
+    + isMember() : bool
+    + loans() : HasMany
+    + penalties() : HasMany
+    + getActiveBorrowsCount() : int
+    + canBorrow() : bool
+    + hasUnpaidPenalties() : bool
+  }
+
+  class Category {
+    + categories_id : bigint <<PK>>
+    + name : string(100)
+    + description : text <<nullable>>
+    + created_at : timestamp
+    + updated_at : timestamp
+    --
+    + books() : HasMany
+  }
+
+  class Book {
+    + books_id : bigint <<PK>>
+    + category_id : bigint <<FK, nullable>>
+    + title : string(255)
+    + author : string(255) <<nullable>>
+    + publisher : string(255) <<nullable>>
+    + year : int <<nullable>>
+    + isbn : string(20) <<unique>>
+    + cover : string <<nullable>>
+    + stock : int
+    + available_stock : int
+    + description : text <<nullable>>
+    + created_at : timestamp
+    + updated_at : timestamp
+    --
+    + category() : BelongsTo
+    + loans() : HasMany
+    + getCoverUrlAttribute() : string
+    + hasCover() : bool
+    + isAvailable() : bool
+    + decreaseStock(quantity = 1) : void
+    + increaseStock(quantity = 1) : void
+  }
+
+  class Loan {
+    + loans_id : bigint <<PK>>
+    + loan_code : string(50) <<unique>>
+    + member_id : bigint <<FK>>
+    + book_id : bigint <<FK>>
+    + borrow_date : date
+    + due_date : date
+    + status : enum(borrowed, returned)
+    + processed_by : bigint <<FK, nullable>>
+    + created_at : timestamp
+    + updated_at : timestamp
+    --
+    + user() : BelongsTo
+    + book() : BelongsTo
+    + penalty() : HasOne
+    + loanReturn() : HasOne
+    + processedBy() : BelongsTo
+    + generateCode() : string {static}
+    + getHasFineAttribute() : bool
+    + getCurrentFineAttribute() : float
+    + getLateDaysAttribute() : int
+    + getRemainingDaysAttribute() : int
+    + getStatusColorAttribute() : string
+    + getStatusTextAttribute() : string
+    + getWarningMessageAttribute() : string
+  }
+
+  class LoanReturn {
+    + returns_id : bigint <<PK>>
+    + loan_id : bigint <<FK, unique>>
+    + return_date : date
+    + processed_by : bigint <<FK, nullable>>
+    + created_at : timestamp
+    + updated_at : timestamp
+    --
+    + loan() : BelongsTo
+    + admin() : BelongsTo
+  }
+
+  class Penalty {
+    + penalties_id : bigint <<PK>>
+    + loan_id : bigint <<FK>>
+    + member_id : bigint <<FK>>
+    + days_late : int
+    + fine_amount : decimal(10,2)
+    + status : enum(unpaid, paid)
+    + paid_date : date <<nullable>>
+    + created_at : timestamp
+    + updated_at : timestamp
+    --
+    + loan() : BelongsTo
+    + user() : BelongsTo
+  }
+
+}
+
+' ---- Relasi sesuai Eloquent + foreign key migration ----
+User "1" -- "0..*" Loan : member_id
+User "1" -- "0..*" Penalty : member_id
+User "0..1" -- "0..*" Loan : processed_by
+User "0..1" -- "0..*" LoanReturn : processed_by
+Category "0..1" -- "0..*" Book : category_id
+Book "1" -- "0..*" Loan : book_id
+Loan "1" -- "0..1" Penalty : loan_id
+Loan "1" -- "0..1" LoanReturn : loan_id
+
+note right of User
+  Admin dan member berada di satu tabel users.
+  Member bukan kelas terpisah: cukup user dengan
+  role "member". member_code dibuat otomatis
+  dengan format MBR-00001 saat akun member dibuat.
+end note
+
+note bottom of Book
+  available_stock adalah stok yang masih tersedia.
+  Nilainya berkurang saat buku dipinjam dan
+  bertambah saat buku dikembalikan.
+end note
+
+note bottom of Loan
+  Status hanya "borrowed" atau "returned".
+  Keterlambatan, denda berjalan, sisa hari, dan
+  warna status dihitung otomatis dari due_date.
+  Kode pinjam: PJM-YYYYMMDD-XXXXXX.
+end note
+
+note bottom of LoanReturn
+  loan_id bersifat unik, sehingga satu peminjaman
+  hanya bisa memiliki satu data pengembalian.
+end note
+
+note bottom of Penalty
+  Denda dihitung Rp2.000 per hari terlambat.
+  Batas pinjaman aktif 3 buku dan durasi
+  maksimal 30 hari (config/perpustakaan.php).
+end note
+
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+title Login
+autonumber
+actor Admin as A
+participant "Halaman Login" as H
+participant "Sistem" as S
+participant "Data Pengguna" as U
+database "Database" as DB
+
+A -> H : Buka halaman login
+H --> A : Form email dan password
+
+A -> H : Isi email dan password
+H -> S : Kirim data login
+S -> U : Cari akun berdasarkan email
+U -> DB : Baca data akun
+DB --> U : Data akun
+U --> S : Hasil pencarian
+
+alt Email tidak ditemukan
+  S --> H : Pesan email atau password salah
+  H --> A : Tampilkan pesan gagal
+else Email ditemukan
+  S -> S : Periksa kecocokan password
+  alt Password salah
+    S --> H : Pesan email atau password salah
+    H --> A : Tampilkan pesan gagal
+  else Password benar
+    S -> S : Periksa status akun
+    alt Akun tidak aktif
+      S --> H : Pesan akun dinonaktifkan
+      H --> A : Tampilkan pesan gagal
+    else Akun aktif
+      S -> U : Catat waktu login terakhir
+      U -> DB : Simpan waktu login
+      alt Peran admin
+        S --> H : Arahkan ke dashboard admin
+      else Peran member
+        S --> H : Arahkan ke dashboard member
+      end
+      H --> A : Tampilkan dashboard
+    end
+  end
+end
+@enduml

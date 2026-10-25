@@ -1,0 +1,95 @@
+digraph lrs_perpustakaan {
+  label="LRS (Logical Record Structure) - Sistem Perpustakaan";
+  labelloc=t;
+  fontsize=18;
+  fontname="Helvetica-Bold";
+  rankdir=TB;
+  splines=ortho;
+  nodesep=0.6;
+  ranksep=0.7;
+  compound=true;
+  node [fontname="Helvetica", fontsize=12, shape=plaintext];
+  edge [fontname="Helvetica", fontsize=11, arrowhead=none, color="#333333"];
+
+  users [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#c9c9c9"><B>users</B></TD></TR>
+      <TR><TD ALIGN="LEFT">* id</TD></TR>
+      <TR><TD ALIGN="LEFT">name</TD></TR>
+      <TR><TD ALIGN="LEFT">email</TD></TR>
+      <TR><TD ALIGN="LEFT">password</TD></TR>
+      <TR><TD ALIGN="LEFT">role</TD></TR>
+      <TR><TD ALIGN="LEFT">status</TD></TR>
+      <TR><TD ALIGN="LEFT">phone</TD></TR>
+      <TR><TD ALIGN="LEFT">address</TD></TR>
+    </TABLE>>];
+
+  categories [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#c9c9c9"><B>categories</B></TD></TR>
+      <TR><TD ALIGN="LEFT">* id</TD></TR>
+      <TR><TD ALIGN="LEFT">name</TD></TR>
+      <TR><TD ALIGN="LEFT">description</TD></TR>
+    </TABLE>>];
+
+  members [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#c9c9c9"><B>members</B></TD></TR>
+      <TR><TD ALIGN="LEFT">* id</TD></TR>
+      <TR><TD ALIGN="LEFT">user_id</TD></TR>
+      <TR><TD ALIGN="LEFT">member_code</TD></TR>
+      <TR><TD ALIGN="LEFT">join_date</TD></TR>
+      <TR><TD ALIGN="LEFT">status</TD></TR>
+    </TABLE>>];
+
+  books [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#c9c9c9"><B>books</B></TD></TR>
+      <TR><TD ALIGN="LEFT">* id</TD></TR>
+      <TR><TD ALIGN="LEFT">category_id</TD></TR>
+      <TR><TD ALIGN="LEFT">title</TD></TR>
+      <TR><TD ALIGN="LEFT">author</TD></TR>
+      <TR><TD ALIGN="LEFT">publisher</TD></TR>
+      <TR><TD ALIGN="LEFT">year</TD></TR>
+      <TR><TD ALIGN="LEFT">isbn</TD></TR>
+      <TR><TD ALIGN="LEFT">stock</TD></TR>
+      <TR><TD ALIGN="LEFT">available_stock</TD></TR>
+    </TABLE>>];
+
+  transactions [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#c9c9c9"><B>transactions</B></TD></TR>
+      <TR><TD ALIGN="LEFT">* id</TD></TR>
+      <TR><TD ALIGN="LEFT">transaction_code</TD></TR>
+      <TR><TD ALIGN="LEFT">member_id</TD></TR>
+      <TR><TD ALIGN="LEFT">book_id</TD></TR>
+      <TR><TD ALIGN="LEFT">borrow_date</TD></TR>
+      <TR><TD ALIGN="LEFT">due_date</TD></TR>
+      <TR><TD ALIGN="LEFT">return_date</TD></TR>
+      <TR><TD ALIGN="LEFT">status</TD></TR>
+    </TABLE>>];
+
+  penalties [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="5">
+      <TR><TD BGCOLOR="#c9c9c9"><B>penalties</B></TD></TR>
+      <TR><TD ALIGN="LEFT">* id</TD></TR>
+      <TR><TD ALIGN="LEFT">transaction_id</TD></TR>
+      <TR><TD ALIGN="LEFT">member_id</TD></TR>
+      <TR><TD ALIGN="LEFT">days_late</TD></TR>
+      <TR><TD ALIGN="LEFT">fine_amount</TD></TR>
+      <TR><TD ALIGN="LEFT">status</TD></TR>
+      <TR><TD ALIGN="LEFT">paid_date</TD></TR>
+    </TABLE>>];
+
+  users      -> members     [taillabel="1", headlabel="M", labeldistance=2, labelangle=0];
+  categories -> books       [taillabel="1", headlabel="M", labeldistance=2, labelangle=0];
+  members    -> transactions [taillabel="1", headlabel="M", labeldistance=2, labelangle=0];
+  books      -> transactions [taillabel="1", headlabel="M", labeldistance=2, labelangle=0];
+  transactions -> penalties  [taillabel="1", headlabel="0/1", labeldistance=2, labelangle=0];
+  members    -> penalties    [taillabel="1", headlabel="M", labeldistance=2, labelangle=0];
+
+  {rank=same; users; categories;}
+  {rank=same; members; books;}
+  {rank=same; transactions;}
+  {rank=same; penalties;}
+}
