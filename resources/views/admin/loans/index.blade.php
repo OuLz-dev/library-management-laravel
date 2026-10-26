@@ -7,8 +7,8 @@
     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
         <h5 class="mb-0"><i class="fas fa-hand-holding me-2"></i> Daftar Peminjaman Aktif</h5>
         <div class="d-flex gap-2">
-            <a href="{{ route('admin.returns.index') }}" class="btn btn-success btn-sm">
-                <i class="fas fa-undo me-1"></i> Pengembalian
+            <a href="{{ route('admin.returns.create') }}" class="btn btn-success btn-sm">
+                <i class="fas fa-undo me-1"></i> Kembalikan Buku
             </a>
             <a href="{{ route('admin.loans.create') }}" class="btn btn-light btn-sm">
                 <i class="fas fa-plus me-1"></i> Pinjam Buku
@@ -34,7 +34,7 @@
             <span class="text-muted">
                 <i class="fas fa-info-circle me-1"></i>
                 Halaman ini hanya menampilkan peminjaman yang <strong>belum dikembalikan</strong>.
-                Riwayat buku yang sudah kembali ada di menu Pengembalian.
+                Riwayat buku yang sudah kembali ada di halaman Riwayat Pengembalian.
             </span>
             <a href="{{ route('admin.returns.index') }}" class="btn btn-outline-success btn-sm">
                 <i class="fas fa-history me-1"></i> Riwayat Pengembalian
@@ -98,7 +98,7 @@
                                     <span class="badge bg-secondary loan-code">{{ $loan->loan_code }}</span>
                                     <button type="button" class="btn btn-outline-secondary btn-sm btn-copy-code p-1"
                                             data-code="{{ $loan->loan_code }}"
-                                            title="Copy kode (paste ke halaman Pengembalian)">
+                                            title="Copy kode (cari di form Kembalikan Buku)">
                                         <i class="fas fa-copy"></i>
                                     </button>
                                 </div>

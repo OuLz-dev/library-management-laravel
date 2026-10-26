@@ -21,18 +21,14 @@ class LoanReturnTest extends TestCase
         $this->admin = User::factory()->admin()->create();
     }
 
-    /** Langkah 1+2 alur baru: cari kode peminjaman, lompat ke halaman detail. */
-    private function findLoan(Loan $loan)
-    {
-        return $this->actingAs($this->admin)
-            ->post('/admin/returns', ['loan_code' => $loan->loan_code]);
-    }
-
-    /** Langkah 3 alur baru: proses pengembalian dengan tanggal yang diinput. */
+    /** Proses pengembalian lewat form aksi. */
     private function processReturn(Loan $loan, string $returnDate)
     {
         return $this->actingAs($this->admin)
-            ->post('/admin/returns/'.$loan->loan_code, ['return_date' => $returnDate]);
+            ->post('/admin/returns', [
+                'loan_id' => $loan->getKey(),
+                'return_date' => $returnDate,
+            ]);
     }
 
     public function test_return_on_time_creates_no_penalty_and_restores_stock(): void
@@ -42,10 +38,6 @@ class LoanReturnTest extends TestCase
             'due_date' => now()->addDays(3),
             'status' => 'borrowed',
         ]);
-
-        $response = $this->findLoan($loan);
-
-        $response->assertRedirect('/admin/returns/'.$loan->loan_code);
 
         $response = $this->processReturn($loan, now()->toDateString());
 
@@ -109,9 +101,11 @@ class LoanReturnTest extends TestCase
     {
         $loan = Loan::factory()->returned()->create();
 
-        $response = $this->findLoan($loan);
+        $response = $this->processReturn($loan, now()->toDateString());
 
+        $response->assertRedirect('/admin/returns');
         $response->assertSessionHas('error', 'Buku untuk kode ini sudah dikembalikan');
+        $this->assertSame(1, $loan->loanReturn()->count());
         $this->assertSame(0, Penalty::where('loan_id', $loan->getKey())->count());
     }
 
@@ -122,7 +116,6 @@ class LoanReturnTest extends TestCase
             'status' => 'borrowed',
         ]);
 
-        $this->findLoan($loan);
         $this->processReturn($loan, now()->toDateString());
 
         $this->assertSame('returned', $loan->refresh()->status);
@@ -138,7 +131,6 @@ class LoanReturnTest extends TestCase
             'status' => 'borrowed',
         ]);
 
-        $this->findLoan($loan);
         $this->processReturn($loan, now()->toDateString());
         $firstReturn = $book->refresh()->available_stock;
 
@@ -149,36 +141,38 @@ class LoanReturnTest extends TestCase
         $this->assertSame($firstReturn, $secondAttempt);
     }
 
-    // ---------- ALUR LENGKAP BARU (form pencarian -> detail -> proses) ----------
+    // ---------- ALUR LENGKAP BARU (riwayat -> form aksi -> proses) ----------
 
-    public function test_full_return_flow_search_validates_then_processes_late_return(): void
+    public function test_full_return_flow_from_form_then_processes_late_return(): void
     {
-        $book = Book::factory()->create(['stock' => 2, 'available_stock' => 1]);
+        $member = User::factory()->create(['name' => 'Budi Pengembali']);
+        $book = Book::factory()->create([
+            'title' => 'Buku Terlambat',
+            'stock' => 2,
+            'available_stock' => 1,
+        ]);
         // Jatuh tempo 5 hari lalu; dikembalikan hari ini -> telat 5 hari.
-        $loan = Loan::factory()->for($book)->create([
+        $loan = Loan::factory()->for($member)->for($book)->create([
             'due_date' => now()->subDays(5),
             'status' => 'borrowed',
         ]);
 
-        // 1) Kode yang tidak dikenal ditolak dengan error validasi.
+        // 1) Riwayat pengembalian tidak boleh menampilkan peminjaman aktif,
+        //    meskipun kata kunci cocok dengan member peminjamnya.
         $this->actingAs($this->admin)
-            ->post('/admin/returns', ['loan_code' => 'PJM-NOTEXISTING'])
-            ->assertSessionHasErrors([
-                'loan_code' => 'Kode peminjaman tidak ditemukan',
-            ]);
-
-        // 2) Kode yang dikenal -> lompat ke halaman detail berbasis kode.
-        $this->actingAs($this->admin)
-            ->post('/admin/returns', ['loan_code' => $loan->loan_code])
-            ->assertRedirect('/admin/returns/'.$loan->loan_code);
-
-        $this->actingAs($this->admin)
-            ->get('/admin/returns/'.$loan->loan_code)
+            ->get('/admin/returns?search=Budi Pengembali')
             ->assertOk()
-            ->assertViewIs('admin.returns.show')
-            ->assertViewHas('loan', fn ($viewLoan) => $viewLoan->getKey() === $loan->getKey());
+            ->assertDontSee($loan->loan_code);
 
-        // 3) Proses pengembalian terlambat.
+        // 2) Tombol "Kembalikan Buku" membuka form aksi berisi peminjaman aktif.
+        $this->actingAs($this->admin)
+            ->get('/admin/returns/create')
+            ->assertOk()
+            ->assertViewIs('admin.returns.create')
+            ->assertSee('Kembalikan Buku')
+            ->assertSee($loan->loan_code);
+
+        // 3) Proses pengembalian terlambat lewat form.
         $this->processReturn($loan, now()->toDateString());
 
         $loan->refresh();
@@ -225,7 +219,8 @@ class LoanReturnTest extends TestCase
 
         // Admin 2 memproses pengembalian.
         $this->actingAs($admin2)
-            ->post('/admin/returns/'.$loan->loan_code, [
+            ->post('/admin/returns', [
+                'loan_id' => $loan->getKey(),
                 'return_date' => now()->toDateString(),
             ])
             ->assertRedirect('/admin/returns');
@@ -244,38 +239,49 @@ class LoanReturnTest extends TestCase
             ->assertSee($admin2->name);
     }
 
-    public function test_loans_page_has_no_return_action_and_returns_page_has_single_search_bar(): void
+    public function test_returns_history_page_only_searches_returned_loans(): void
     {
-        $member = User::factory()->create(['name' => 'Budi Peminjam']);
-        $book = Book::factory()->create(['title' => 'Buku Panduan']);
-        $loan = Loan::factory()->for($member)->for($book)->create([
+        $member = User::factory()->create(['name' => 'Budi Riwayat']);
+        $activeLoan = Loan::factory()->for($member)->create([
             'status' => 'borrowed',
             'due_date' => now()->addDays(3),
         ]);
+        $returnedLoan = Loan::factory()->returned()->for($member)->create();
 
-        // Halaman peminjaman: hanya satu bar pencarian, tanpa aksi Kembalikan.
-        $response = $this->actingAs($this->admin)->get('/admin/loans');
+        $response = $this->actingAs($this->admin)
+            ->get('/admin/returns?search=Budi Riwayat');
+
         $response->assertOk();
         $this->assertSame(1, substr_count($response->getContent(), 'name="search"'));
-        $response->assertDontSee('Kembalikan');
+        $response->assertSee($returnedLoan->loan_code);
+        $response->assertDontSee($activeLoan->loan_code);
 
-        // Halaman pengembalian: juga hanya satu bar pencarian.
-        $response = $this->actingAs($this->admin)->get('/admin/returns');
-        $response->assertOk();
-        $this->assertSame(1, substr_count($response->getContent(), 'name="search"'));
-        $response->assertDontSee('name="loan_code"', false);
-
-        // Kata kunci yang cocok dengan peminjaman aktif memunculkan aksi
-        // Kembalikan di halaman pengembalian.
-        $this->actingAs($this->admin)->get('/admin/returns?search=Budi')
+        // Kode peminjaman aktif yang persis pun tidak mengalihkan ke mana pun;
+        // halaman riwayat tetap kosong karena tidak ada riwayat yang cocok.
+        $this->actingAs($this->admin)
+            ->get('/admin/returns?search='.$activeLoan->loan_code)
             ->assertOk()
-            ->assertSee('Peminjaman aktif yang cocok')
-            ->assertSee('Kembalikan')
-            ->assertSee($loan->loan_code);
+            ->assertSee('Tidak ada riwayat pengembalian yang cocok')
+            ->assertViewHas('returns', fn ($returns) => $returns->total() === 0);
+    }
 
-        // Kode peminjaman aktif yang persis langsung membuka form proses.
-        $this->actingAs($this->admin)->get('/admin/returns?search='.$loan->loan_code)
-            ->assertRedirect('/admin/returns/'.$loan->loan_code);
+    public function test_return_form_lists_only_active_loans(): void
+    {
+        $member = User::factory()->create(['name' => 'Budi Aksi']);
+        $activeLoan = Loan::factory()->for($member)->create([
+            'status' => 'borrowed',
+            'due_date' => now()->addDays(3),
+        ]);
+        $returnedLoan = Loan::factory()->returned()->for($member)->create();
+
+        $response = $this->actingAs($this->admin)->get('/admin/returns/create');
+
+        $response->assertOk();
+        $response->assertViewIs('admin.returns.create');
+        $response->assertSee('name="loan_id"', false);
+        $response->assertSee('Kembalikan Buku');
+        $response->assertSee($activeLoan->loan_code);
+        $response->assertDontSee($returnedLoan->loan_code);
     }
 
 

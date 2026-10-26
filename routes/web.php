@@ -57,11 +57,10 @@ Route::middleware('auth')->group(function () {
         Route::get('loans/create', [LoanController::class, 'create'])->name('loans.create');
         Route::post('loans', [LoanController::class, 'store'])->name('loans.store');
 
-        // Pengembalian berbasis kode peminjaman (Bagian 3)
+        // Pengembalian: satu halaman riwayat + satu form aksi "Kembalikan Buku"
         Route::get('returns', [LoanReturnController::class, 'index'])->name('returns.index');
-        Route::post('returns', [LoanReturnController::class, 'search'])->name('returns.search');
-        Route::get('returns/{loanCode}', [LoanReturnController::class, 'show'])->name('returns.show');
-        Route::post('returns/{loanCode}', [LoanReturnController::class, 'process'])->name('returns.process');
+        Route::get('returns/create', [LoanReturnController::class, 'create'])->name('returns.create');
+        Route::post('returns', [LoanReturnController::class, 'store'])->name('returns.store');
 
         //  DENDA
         Route::get('penalties', [PenaltyController::class, 'index'])->name('penalties.index');

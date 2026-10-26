@@ -49,17 +49,19 @@ class SmokeTest extends TestCase
         $this->assertSame(1, $this->book->refresh()->available_stock);
         $this->assertFalse($loan->has_fine);
 
-        // 2) CARI KODE PEMINJAMAN -----------------------------------------
+        // 2) BUKA FORM PENGEMBALIAN ----------------------------------------
         $this->actingAs($this->admin)
-            ->post('/admin/returns', ['loan_code' => $loan->loan_code])
-            ->assertRedirect('/admin/returns/'.$loan->loan_code);
+            ->get('/admin/returns/create')
+            ->assertOk()
+            ->assertSee($loan->loan_code);
 
         // 3) KEMBALI TERLAMBAT ----------------------------------------------
         // Mundurkan jatuh tempo supaya dihitung terlambat 3 hari.
         $loan->update(['due_date' => now()->subDays(3)->toDateString()]);
 
         $this->actingAs($this->admin)
-            ->post('/admin/returns/'.$loan->loan_code, [
+            ->post('/admin/returns', [
+                'loan_id' => $loan->getKey(),
                 'return_date' => now()->toDateString(),
             ])
             ->assertRedirect('/admin/returns');

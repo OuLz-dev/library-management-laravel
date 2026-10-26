@@ -40,7 +40,7 @@ menampilkan proses yang rinci: halaman, sistem, data terkait, dan database.
 | `admin/02-kelola-data-member` | Melihat & mencari member, menambah member, memblokir/mengaktifkan, dan menghapus member |
 | `admin/03-kelola-buku` | Melihat & mencari buku, menambah buku (termasuk sampul), mengubah buku, dan menghapus buku |
 | `admin/04-peminjaman-buku` | Pilih member dan buku, pemeriksaan syarat pinjam, denda, stok, pembuatan kode pinjam, dan pengurangan stok |
-| `admin/05-pengembalian-buku` | Pencarian peminjaman, pemeriksaan tanggal kembali, penandaan selesai, penambahan stok, dan pencatatan denda bila terlambat |
+| `admin/05-pengembalian-buku` | Satu halaman riwayat dengan pencarian khusus riwayat; tombol Kembalikan Buku membuka form untuk memilih peminjaman aktif dan tanggal kembali, lalu sistem menandai selesai, menambah stok, dan mencatat denda bila terlambat |
 
 ### Member
 
