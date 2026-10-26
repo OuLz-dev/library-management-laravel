@@ -24,6 +24,9 @@ Relasi utama: `Category → Book → Loan`, `User → Loan/Penalty`,
 member adalah `User` dengan role `member`, sedangkan transaksi peminjaman
 bernama `Loan` dan pengembaliannya `LoanReturn`.
 
+Catatan bisnis diringkas sebagai legend di bagian bawah diagram. Tujuannya agar
+penjelasan tidak menjadi node/garis tambahan yang memotong relasi antar-kelas.
+
 ## Sequence Diagram
 
 Semua sequence diagram ada di folder `sequence/`, dipisahkan menjadi `admin/` dan
@@ -55,7 +58,11 @@ menampilkan proses yang rinci: halaman, sistem, data terkait, dan database.
 
 Dengan PlantUML lokal:
 ```bash
-cd docs/uml/sequence
+cd docs/uml
+java -jar plantuml.jar -tpng class-diagram.puml
+java -jar plantuml.jar -tsvg class-diagram.puml
+
+cd sequence
 java -jar plantuml.jar -tpng admin/*.puml member/*.puml
 java -jar plantuml.jar -tsvg admin/*.puml member/*.puml
 ```

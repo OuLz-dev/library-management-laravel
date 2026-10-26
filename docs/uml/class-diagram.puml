@@ -2,6 +2,7 @@
 title Class Diagram - Sistem Perpustakaan
 ' Sumber: app/Models/*.php + database/migrations/*_create_*.php + config/perpustakaan.php
 skinparam classAttributeIconSize 0
+hide circle
 skinparam shadowing false
 skinparam linetype ortho
 
@@ -125,44 +126,31 @@ package "App\\Models" {
 }
 
 ' ---- Relasi sesuai Eloquent + foreign key migration ----
-User "1" -- "0..*" Loan : member_id
+' Multiplicity di sisi yang berdekatan dengan User/Book dihilangkan bila
+' labelnya bertabrakan; nilai lengkapnya ditulis di legend.
+User "1" -- Loan : member_id
 User "1" -- "0..*" Penalty : member_id
-User "0..1" -- "0..*" Loan : processed_by
+User "0..1" -- Loan : processed_by
 User "0..1" -- "0..*" LoanReturn : processed_by
 Category "0..1" -- "0..*" Book : category_id
-Book "1" -- "0..*" Loan : book_id
+Book -- "0..*" Loan : book_id
 Loan "1" -- "0..1" Penalty : loan_id
 Loan "1" -- "0..1" LoanReturn : loan_id
 
-note right of User
-  Admin dan member berada di satu tabel users.
-  Member bukan kelas terpisah: cukup user dengan
-  role "member". member_code dibuat otomatis
-  dengan format MBR-00001 saat akun member dibuat.
-end note
+' Penataan kolom: Book/ Category di kiri User agar jalur relasi
+' User -> LoanReturn/Penalty tidak memotong jalur Book -> Loan.
+User -[hidden]left- Book
 
-note bottom of Book
-  available_stock adalah stok yang masih tersedia.
-  Nilainya berkurang saat buku dipinjam dan
-  bertambah saat buku dikembalikan.
-end note
-
-note bottom of Loan
-  Status hanya "borrowed" atau "returned".
-  Keterlambatan, denda berjalan, sisa hari, dan
-  warna status dihitung otomatis dari due_date.
-  Kode pinjam: PJM-YYYYMMDD-XXXXXX.
-end note
-
-note bottom of LoanReturn
-  loan_id bersifat unik, sehingga satu peminjaman
-  hanya bisa memiliki satu data pengembalian.
-end note
-
-note bottom of Penalty
-  Denda dihitung Rp2.000 per hari terlambat.
-  Batas pinjaman aktif 3 buku dan durasi
-  maksimal 30 hari (config/perpustakaan.php).
-end note
+legend right
+  <b>Catatan</b>
+  Admin dan member berada di satu tabel users; member cukup user dengan role "member".
+  member_code dibuat otomatis (MBR-00001) saat akun member dibuat.
+  Status peminjaman hanya "borrowed" atau "returned"; keterlambatan, denda berjalan,
+  sisa hari, dan warna status dihitung otomatis dari due_date.
+  Kode pinjam: PJM-YYYYMMDD-XXXXXX. Denda Rp2.000 per hari terlambat.
+  Batas pinjaman aktif 3 buku dan durasi maksimal 30 hari (config/perpustakaan.php).
+  Kardinalitas: User-Loan lewat member_id 1 ke 0..*, lewat processed_by 0..1 ke 0..*;
+  Book-Loan 1 ke 0..*. Relasi lain mengikuti notasi pada diagram.
+endlegend
 
 @enduml
