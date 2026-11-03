@@ -1,0 +1,35 @@
+@startuml
+title Registrasi Member
+autonumber
+actor "Calon Member" as A
+participant "Halaman\nRegistrasi" as H
+participant "Sistem" as S
+participant "Data Member" as M
+database "Database" as DB
+
+A -> H : Buka halaman registrasi
+H --> A : Form pendaftaran
+A -> H : Isi nama, email, password, telepon, alamat
+H -> S : Kirim data pendaftaran
+S -> S : Periksa kelengkapan data
+alt Data belum lengkap
+  S --> H : Tampilkan pesan kesalahan
+  H --> A : Perbaiki data
+else Data lengkap
+  S -> M : Periksa apakah email sudah dipakai
+  M -> DB : Cari email yang sama
+  DB --> M : Hasil pemeriksaan
+  alt Email sudah terdaftar
+    S --> H : Pesan email sudah digunakan
+    H --> A : Perbaiki email
+  else Email belum terdaftar
+    S -> S : Buat nomor member otomatis
+    S -> M : Simpan akun member baru
+    M -> DB : Tulis data member
+    DB --> M : Akun tersimpan
+    S -> S : Aktifkan sesi member
+    S --> H : Arahkan ke dashboard member
+    H --> A : Tampilkan dashboard
+  end
+end
+@enduml

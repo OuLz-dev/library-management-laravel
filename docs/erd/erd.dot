@@ -1,0 +1,85 @@
+digraph erd_perpustakaan {
+  label="ERD - Sistem Perpustakaan (trial_perpustakaan2)";
+  labelloc=t;
+  fontsize=16;
+  fontname="Helvetica";
+  rankdir=LR;
+  nodesep=0.6;
+  ranksep=0.8;
+  node [fontname="Helvetica", fontsize=11, shape=plaintext];
+  edge [fontname="Helvetica", fontsize=10];
+
+  users [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#1f2937"><FONT COLOR="white"><B>users</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>* id</B> PK, bigint</TD></TR>
+      <TR><TD ALIGN="LEFT">name varchar</TD></TR>
+      <TR><TD ALIGN="LEFT">email varchar [UK]</TD></TR>
+      <TR><TD ALIGN="LEFT">password varchar</TD></TR>
+      <TR><TD ALIGN="LEFT">role ENUM(admin, member)</TD></TR>
+      <TR><TD ALIGN="LEFT">status ENUM(active, inactive)</TD></TR>
+      <TR><TD ALIGN="LEFT">phone varchar(15) null</TD></TR>
+      <TR><TD ALIGN="LEFT">address text null</TD></TR>
+    </TABLE>>];
+
+  members [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#1d4ed8"><FONT COLOR="white"><B>members</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>* id</B> PK, bigint</TD></TR>
+      <TR><TD ALIGN="LEFT"><B># user_id</B> FK,UK -&gt; users.id</TD></TR>
+      <TR><TD ALIGN="LEFT">member_code varchar(50) [UK]</TD></TR>
+      <TR><TD ALIGN="LEFT">join_date date</TD></TR>
+      <TR><TD ALIGN="LEFT">status ENUM(active, blocked)</TD></TR>
+    </TABLE>>];
+
+  categories [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#047857"><FONT COLOR="white"><B>categories</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>* id</B> PK, bigint</TD></TR>
+      <TR><TD ALIGN="LEFT">name varchar(100)</TD></TR>
+      <TR><TD ALIGN="LEFT">description text null</TD></TR>
+    </TABLE>>];
+
+  books [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#b45309"><FONT COLOR="white"><B>books</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>* id</B> PK, bigint</TD></TR>
+      <TR><TD ALIGN="LEFT"><B># category_id</B> FK null -&gt; categories.id</TD></TR>
+      <TR><TD ALIGN="LEFT">title varchar(255)</TD></TR>
+      <TR><TD ALIGN="LEFT">author / publisher null</TD></TR>
+      <TR><TD ALIGN="LEFT">year int null</TD></TR>
+      <TR><TD ALIGN="LEFT">isbn varchar(20) [UK]</TD></TR>
+      <TR><TD ALIGN="LEFT">stock / available_stock int</TD></TR>
+    </TABLE>>];
+
+  transactions [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#7c3aed"><FONT COLOR="white"><B>transactions</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>* id</B> PK, bigint</TD></TR>
+      <TR><TD ALIGN="LEFT">transaction_code [UK]</TD></TR>
+      <TR><TD ALIGN="LEFT"><B># member_id</B> FK -&gt; members.id</TD></TR>
+      <TR><TD ALIGN="LEFT"><B># book_id</B> FK -&gt; books.id</TD></TR>
+      <TR><TD ALIGN="LEFT">borrow_date / due_date date</TD></TR>
+      <TR><TD ALIGN="LEFT">return_date date null</TD></TR>
+      <TR><TD ALIGN="LEFT">status ENUM(borrowed, returned)</TD></TR>
+    </TABLE>>];
+
+  penalties [label=<
+    <TABLE BORDER="1" CELLBORDER="1" CELLSPACING="0" CELLPADDING="4">
+      <TR><TD BGCOLOR="#be123c"><FONT COLOR="white"><B>penalties</B></FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><B>* id</B> PK, bigint</TD></TR>
+      <TR><TD ALIGN="LEFT"><B># transaction_id</B> FK -&gt; transactions.id</TD></TR>
+      <TR><TD ALIGN="LEFT"><B># member_id</B> FK -&gt; members.id</TD></TR>
+      <TR><TD ALIGN="LEFT">days_late int</TD></TR>
+      <TR><TD ALIGN="LEFT">fine_amount decimal(10,2)</TD></TR>
+      <TR><TD ALIGN="LEFT">status ENUM(unpaid, paid)</TD></TR>
+      <TR><TD ALIGN="LEFT">paid_date date null</TD></TR>
+    </TABLE>>];
+
+  users -> members [label="1 - 1\nuser_id UK, CASCADE", arrowhead=crow, arrowtail=tee, dir=both];
+  categories -> books [label="1 - N\nSET NULL", arrowhead=crow, arrowtail=tee, dir=both];
+  members -> transactions [label="1 - N\nCASCADE", arrowhead=crow, arrowtail=tee, dir=both];
+  books -> transactions [label="1 - N\nCASCADE", arrowhead=crow, arrowtail=tee, dir=both];
+  transactions -> penalties [label="1 - 0/1\nCASCADE", arrowhead=tee, arrowtail=tee, dir=both];
+  members -> penalties [label="1 - N\nCASCADE", arrowhead=crow, arrowtail=tee, dir=both, style=dashed];
+}

@@ -1,0 +1,39 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: mariadb1
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: password123
+      MARIADB_DATABASE: mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3306:3306"
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin1
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mariadb1
+      PMA_USER: root
+      PMA_PASSWORD: rahasia123
+    depends_on:
+      - mariadb
+
+  web:
+    build: .
+    container_name: web1
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - mariadb
+
+volumes:
+  mariadb_data:

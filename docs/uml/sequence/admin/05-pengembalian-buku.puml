@@ -1,0 +1,65 @@
+@startuml
+title Pengembalian Buku
+autonumber
+actor Admin as A
+participant "Riwayat\nPengembalian" as R
+participant "Form\nPengembalian" as F
+participant "Sistem" as S
+participant "Data Peminjaman" as P
+participant "Data Buku" as B
+participant "Data Denda" as D
+database "Database" as DB
+
+== Riwayat pengembalian ==
+A -> R : Buka menu Pengembalian
+R -> S : Minta riwayat pengembalian
+S -> P : Ambil peminjaman yang sudah selesai
+P -> DB : Baca data pengembalian
+DB --> P : Daftar pengembalian
+S --> R : Tampilkan riwayat + kolom pencarian
+
+A -> R : Cari kode, nama member, atau judul buku
+R -> S : Kirim kata kunci riwayat
+S -> P : Cari di riwayat pengembalian saja
+P -> DB : Baca data yang cocok
+DB --> P : Hasil pencarian
+S --> R : Tampilkan hasil riwayat
+note right of R : Peminjaman yang belum kembali\ntidak ikut tampil di sini
+
+== Form pengembalian ==
+A -> R : Klik tombol Kembalikan Buku
+R -> F : Buka form pengembalian
+F -> S : Minta daftar peminjaman aktif
+S -> P : Ambil peminjaman yang belum kembali
+P -> DB : Baca data peminjaman
+DB --> P : Daftar peminjaman aktif
+S --> F : Tampilkan pilihan peminjaman + tanggal kembali
+
+A -> F : Pilih peminjaman dan isi tanggal kembali
+F -> S : Kirim data pengembalian
+S -> S : Periksa tanggal pengembalian
+note right of S : Tidak melebihi hari ini\ndan tidak sebelum tanggal pinjam
+alt Tanggal tidak valid
+  S --> F : Tampilkan pesan kesalahan
+else Tanggal valid
+  alt Sudah pernah dikembalikan
+    S --> F : Pesan buku sudah dikembalikan
+  else Belum dikembalikan
+    S -> P : Tandai peminjaman selesai
+    P -> DB : Simpan tanggal dan status kembali
+    S -> B : Tambah stok buku
+    B -> DB : Ubah jumlah stok tersedia
+    S -> S : Hitung keterlambatan
+    alt Terlambat
+      S -> D : Catat denda
+      D -> DB : Tulis data denda
+      DB --> D : Denda tersimpan
+      S --> F : Pesan terlambat + jumlah denda
+    else Tepat waktu
+      S --> F : Pesan pengembalian berhasil
+    end
+    F --> R : Kembali ke riwayat pengembalian
+    R --> A : Tampilkan pengembalian terbaru
+  end
+end
+@enduml

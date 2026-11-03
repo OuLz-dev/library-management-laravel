@@ -1,0 +1,83 @@
+@startuml
+title Kelola Data Buku
+autonumber
+actor Admin as A
+participant "Halaman Buku" as H
+participant "Sistem" as S
+participant "Data Buku" as B
+participant "Penyimpanan\nGambar" as G
+database "Database" as DB
+
+== Melihat dan mencari buku ==
+A -> H : Buka menu Buku
+H -> S : Minta daftar buku
+S -> B : Ambil semua buku
+B -> DB : Baca data buku
+DB --> B : Daftar buku
+S --> H : Tampilkan daftar buku
+A -> H : Cari judul atau filter kategori
+H -> S : Kirim pencarian
+S -> B : Cari buku yang sesuai
+B -> DB : Baca buku yang cocok
+DB --> B : Hasil pencarian
+S --> H : Tampilkan hasil
+
+== Menambah buku ==
+A -> H : Buka form tambah buku
+H --> A : Form data buku
+A -> H : Isi judul, penulis, kategori, stok, sampul
+H -> S : Kirim data buku baru
+S -> S : Periksa kelengkapan data
+alt Data belum lengkap
+  S --> H : Tampilkan pesan kesalahan
+else Data lengkap
+  opt Ada gambar sampul
+    S -> G : Simpan gambar sampul
+    G --> S : Alamat gambar
+  end
+  S -> B : Simpan buku baru
+  B -> DB : Tulis data buku
+  DB --> B : Buku tersimpan
+  S --> H : Pesan buku berhasil ditambahkan
+  H --> A : Tampilkan daftar buku
+end
+
+== Mengubah buku ==
+A -> H : Pilih buku lalu klik edit
+H -> S : Minta data buku
+S -> B : Ambil data buku
+B -> DB : Baca data buku
+DB --> B : Data buku
+S --> H : Tampilkan form edit
+A -> H : Ubah data lalu simpan
+H -> S : Kirim perubahan
+S -> S : Periksa data dan hitung stok tersedia
+alt Data tidak valid
+  S --> H : Tampilkan pesan kesalahan
+else Data valid
+  opt Ganti gambar sampul
+    S -> G : Hapus gambar lama, simpan gambar baru
+  end
+  S -> B : Simpan perubahan buku
+  B -> DB : Ubah data buku
+  DB --> B : Perubahan tersimpan
+  S --> H : Pesan buku berhasil diubah
+end
+
+== Menghapus buku ==
+A -> H : Pilih buku lalu klik hapus
+H -> S : Kirim permintaan hapus
+S -> B : Periksa peminjaman buku
+B -> DB : Baca data peminjaman buku
+DB --> B : Riwayat peminjaman
+alt Masih dipinjam atau punya riwayat
+  S --> H : Pesan buku tidak bisa dihapus
+else Tidak ada peminjaman
+  opt Buku punya sampul
+    S -> G : Hapus gambar sampul
+  end
+  S -> B : Hapus buku
+  B -> DB : Hapus data buku
+  S --> H : Pesan buku berhasil dihapus
+end
+@enduml
