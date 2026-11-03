@@ -1,0 +1,16 @@
+@startuml
+title Activity Diagram — Logout
+skinparam shadowing false
+
+|Pengguna|
+start
+:Klik menu Keluar;
+
+|Sistem|
+:Hapus sesi login;
+:Buat ulang token CSRF;
+
+|Pengguna|
+:Arahkan ke halaman login;
+stop
+@enduml

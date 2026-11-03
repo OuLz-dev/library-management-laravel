@@ -1,0 +1,28 @@
+@startuml
+title Activity Diagram — Daftar Buku
+skinparam shadowing false
+
+|Admin|
+start
+:Buka menu Buku;
+
+|Database|
+:Ambil daftar buku beserta kategori (20 per halaman);
+
+|Sistem|
+:Susun daftar buku dan pagination;
+
+|Admin|
+:Tampilkan daftar buku;
+
+if (Ingin mencari atau memfilter?) then (ya)
+  :Masukkan kata kunci judul dan/atau pilih kategori;
+  |Database|
+  :Cari buku berdasarkan judul dan kategori;
+  |Admin|
+  :Tampilkan hasil pencarian + pagination;
+else (tidak)
+endif
+
+stop
+@enduml

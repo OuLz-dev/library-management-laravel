@@ -1,0 +1,20 @@
+@startuml
+title Activity Diagram — Status Denda Saya
+skinparam shadowing false
+
+|Member|
+start
+:Buka menu Denda Saya;
+
+|Database|
+:Ambil daftar denda milik member yang sedang login;
+:Hitung total denda yang belum dibayar;
+:Ambil pinjaman aktif yang sudah lewat jatuh tempo;
+
+|Sistem|
+:Hitung denda berjalan = hari terlambat x Rp2.000;
+
+|Member|
+:Tampilkan denda tercatat dan denda berjalan;
+stop
+@enduml

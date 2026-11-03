@@ -1,0 +1,18 @@
+@startuml
+title Activity Diagram — Riwayat Peminjaman Saya
+skinparam shadowing false
+
+|Member|
+start
+:Buka menu Pinjaman Saya;
+
+|Database|
+:Ambil peminjaman milik member yang sedang login (10 per halaman);
+
+|Sistem|
+:Hitung sisa hari, keterlambatan, dan denda setiap pinjaman;
+
+|Member|
+:Tampilkan riwayat peminjaman beserta status dan denda;
+stop
+@enduml

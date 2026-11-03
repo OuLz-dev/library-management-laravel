@@ -1,0 +1,40 @@
+@startuml
+title Activity Diagram — Tambah Buku
+skinparam shadowing false
+
+|Admin|
+start
+:Buka form tambah buku;
+
+|Database|
+:Ambil daftar kategori;
+
+|Admin|
+:Isi judul, penulis, penerbit, tahun, ISBN, kategori, stok, dan deskripsi;
+if (Ingin menambahkan cover?) then (ya)
+  :Pilih file cover (jpeg/png/jpg/gif, maksimal 2 MB);
+else (tidak)
+endif
+:Simpan buku;
+
+|Sistem|
+if (Data valid?) then (tidak)
+  :Tampilkan pesan kesalahan (ISBN wajib/unik, stok minimal 1);
+  stop
+else (ya)
+endif
+
+if (Ada file cover?) then (ya)
+  :Simpan file cover ke storage;
+else (tidak)
+endif
+
+:Set available_stock = stock;
+
+|Database|
+:Simpan data buku baru;
+
+|Admin|
+:Tampilkan daftar buku dan pesan berhasil;
+stop
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+title Activity Diagram — Hapus Buku
+skinparam shadowing false
+
+|Admin|
+start
+:Klik tombol Hapus pada sebuah buku;
+
+|Database|
+:Cek peminjaman aktif dan riwayat peminjaman buku;
+
+|Sistem|
+if (Masih ada peminjaman aktif?) then (ya)
+  :Tampilkan pesan "Buku masih dipinjam dan tidak bisa dihapus";
+  stop
+else (tidak)
+endif
+
+if (Buku memiliki riwayat peminjaman?) then (ya)
+  :Tampilkan pesan "Buku memiliki riwayat peminjaman dan tidak bisa dihapus";
+  stop
+else (tidak)
+endif
+
+if (Buku memiliki cover?) then (ya)
+  |Database|
+  :Hapus file cover dari storage;
+  |Sistem|
+else (tidak)
+endif
+
+|Database|
+:Hapus data buku;
+
+|Admin|
+:Tampilkan daftar buku dan pesan berhasil;
+stop
+@enduml

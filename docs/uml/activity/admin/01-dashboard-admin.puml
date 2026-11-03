@@ -1,0 +1,20 @@
+@startuml
+title Activity Diagram — Dashboard Admin
+skinparam shadowing false
+
+|Admin|
+start
+:Buka dashboard admin;
+
+|Database|
+:Ambil jumlah buku, jumlah member, dan jumlah pinjaman aktif;
+:Ambil total denda yang belum dibayar;
+:Ambil 10 peminjaman terbaru;
+
+|Sistem|
+:Hitung ringkasan statistik perpustakaan;
+
+|Admin|
+:Tampilkan statistik dan tabel peminjaman terbaru;
+stop
+@enduml

@@ -1,0 +1,47 @@
+@startuml
+title Activity Diagram — Edit Buku
+skinparam shadowing false
+
+|Admin|
+start
+:Buka form edit buku;
+
+|Database|
+:Ambil data buku dan daftar kategori;
+
+|Admin|
+:Ubah data buku (judul, ISBN, stok, kategori, dan lainnya);
+if (Ingin mengganti cover?) then (ya)
+  :Pilih file cover baru;
+else (tidak)
+endif
+:Simpan perubahan;
+
+|Sistem|
+if (Data valid dan ISBN tidak dipakai buku lain?) then (tidak)
+  :Tampilkan pesan kesalahan;
+  stop
+else (ya)
+endif
+
+|Database|
+:Hitung jumlah pinjaman aktif buku;
+
+|Sistem|
+:Set available_stock = max(0, stok - jumlah pinjaman aktif);
+
+if (Ada cover baru?) then (ya)
+  |Database|
+  :Hapus file cover lama dari storage;
+  |Sistem|
+  :Simpan file cover baru;
+else (tidak)
+endif
+
+|Database|
+:Perbarui data buku;
+
+|Admin|
+:Tampilkan daftar buku dan pesan berhasil;
+stop
+@enduml

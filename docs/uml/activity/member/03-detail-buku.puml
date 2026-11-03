@@ -1,0 +1,18 @@
+@startuml
+title Activity Diagram — Detail Buku (Member)
+skinparam shadowing false
+
+|Member|
+start
+:Pilih salah satu buku pada katalog;
+
+|Database|
+:Ambil detail buku beserta kategori;
+
+|Sistem|
+:Siapkan data detail buku;
+
+|Member|
+:Tampilkan detail buku tanpa tombol ubah atau hapus;
+stop
+@enduml

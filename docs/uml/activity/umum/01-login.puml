@@ -1,0 +1,42 @@
+@startuml
+title Activity Diagram — Login
+skinparam shadowing false
+
+|Pengguna|
+start
+:Buka halaman login;
+:Masukkan email dan password;
+:Kirim form login;
+
+|Sistem|
+:Validasi format dan kecocokan kredensial;
+
+if (Email terdaftar dan password benar?) then (tidak)
+  :Tampilkan pesan kredensial salah;
+  stop
+else (ya)
+endif
+
+if (Status akun = active?) then (tidak)
+  :Batalkan sesi login;
+  :Tampilkan pesan "Akun Anda tidak aktif";
+  stop
+else (ya)
+endif
+
+:Buat sesi login baru;
+
+|Database|
+:Simpan waktu login terakhir (last_login_at);
+
+|Sistem|
+if (Role pengguna?) then (admin)
+  :Arahkan ke dashboard admin;
+else (member)
+  :Arahkan ke dashboard member;
+endif
+
+|Pengguna|
+:Tampilkan dashboard sesuai peran;
+stop
+@enduml

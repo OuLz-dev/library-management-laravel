@@ -1,0 +1,44 @@
+@startuml
+title Activity Diagram — Katalog Buku
+skinparam shadowing false
+
+|Member|
+start
+:Buka menu Katalog Buku;
+
+|Database|
+:Ambil daftar buku beserta kategori (20 per halaman);
+
+|Sistem|
+:Susun katalog buku dan pagination;
+
+|Member|
+:Tampilkan katalog buku;
+
+if (Ingin mencari buku?) then (ya)
+  :Masukkan kata kunci judul atau penulis;
+  |Database|
+  :Cari buku sesuai kata kunci;
+  |Member|
+else (tidak)
+endif
+
+if (Ingin memfilter kategori?) then (ya)
+  :Pilih kategori;
+  |Database|
+  :Filter buku berdasarkan kategori;
+  |Member|
+else (tidak)
+endif
+
+if (Ingin memfilter ketersediaan?) then (ya)
+  :Pilih tersedia atau habis;
+  |Database|
+  :Filter berdasarkan available_stock;
+  |Member|
+else (tidak)
+endif
+
+:Tampilkan hasil + pagination;
+stop
+@enduml
