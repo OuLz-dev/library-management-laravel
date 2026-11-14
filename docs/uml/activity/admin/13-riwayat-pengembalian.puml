@@ -1,0 +1,30 @@
+@startuml
+title Activity Diagram — Riwayat Pengembalian
+skinparam shadowing false
+
+|Admin|
+start
+:Buka menu Pengembalian;
+
+|Database|
+:Ambil data pengembalian dari transaksi berstatus returned;
+
+|Sistem|
+:Saring hanya transaksi yang sudah dikembalikan;
+
+|Admin|
+:Tampilkan riwayat pengembalian;
+note right: Peminjaman yang belum kembali
+note right: tidak tampil di halaman ini
+
+if (Ingin mencari riwayat?) then (ya)
+  :Masukkan kode pinjam, data member, atau judul buku;
+  |Database|
+  :Cari pada riwayat pengembalian saja;
+  |Admin|
+  :Tampilkan hasil pencarian + pagination;
+else (tidak)
+endif
+
+stop
+@enduml

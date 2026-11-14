@@ -1,0 +1,37 @@
+@startuml
+title Activity Diagram — Daftar Denda
+skinparam shadowing false
+
+|Admin|
+start
+:Buka menu Denda;
+
+|Database|
+:Hitung total denda belum dibayar dan sudah dibayar;
+:Ambil daftar denda (10 per halaman);
+
+|Sistem|
+:Siapkan statistik denda dan total hasil filter;
+
+|Admin|
+:Tampilkan statistik dan daftar denda;
+
+if (Ingin memfilter status?) then (ya)
+  :Pilih status paid atau unpaid;
+  |Database|
+  :Ambil denda sesuai status;
+  |Admin|
+else (tidak)
+endif
+
+if (Ingin mencari data?) then (ya)
+  :Masukkan kode pinjam, data member, atau judul buku;
+  |Database|
+  :Cari denda sesuai kata kunci;
+  |Admin|
+  :Tampilkan daftar dan total denda hasil filter;
+else (tidak)
+endif
+
+stop
+@enduml

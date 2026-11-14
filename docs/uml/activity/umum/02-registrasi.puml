@@ -1,0 +1,35 @@
+@startuml
+title Activity Diagram — Registrasi Member
+skinparam shadowing false
+
+|Pengguna|
+start
+:Buka halaman registrasi;
+:Isi nama, email, password, konfirmasi password, telepon, dan alamat;
+:Kirim form registrasi;
+
+|Sistem|
+if (Data wajib terisi dan format valid?) then (tidak)
+  :Tampilkan pesan kesalahan validasi;
+  stop
+else (ya)
+endif
+
+if (Email sudah terdaftar?) then (ya)
+  :Tampilkan pesan "email sudah digunakan";
+  stop
+else (tidak)
+endif
+
+:Buat kode member MBR-xxxxx secara otomatis;
+
+|Database|
+:Simpan user baru (role = member, status = active, join_date = hari ini);
+
+|Sistem|
+:Login otomatis dengan akun baru;
+
+|Pengguna|
+:Tampilkan dashboard member dan pesan "Registrasi berhasil";
+stop
+@enduml

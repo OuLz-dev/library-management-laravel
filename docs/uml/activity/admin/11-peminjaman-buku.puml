@@ -1,0 +1,76 @@
+@startuml
+title Activity Diagram — Peminjaman Buku
+skinparam shadowing false
+
+|Admin|
+start
+:Buka menu Peminjaman;
+:Klik tombol Tambah Peminjaman;
+
+|Database|
+:Ambil member aktif dan buku dengan stok tersedia;
+
+|Admin|
+:Tampilkan form peminjaman;
+:Pilih member, buku, tanggal pinjam, dan jatuh tempo;
+:Simpan;
+
+|Sistem|
+if (Tanggal pinjam = hari ini?) then (tidak)
+  :Tampilkan pesan "Tanggal pinjam hanya boleh hari ini";
+  stop
+else (ya)
+endif
+
+if (Jatuh tempo setelah tanggal pinjam dan maksimal 30 hari?) then (tidak)
+  :Tampilkan pesan batas jatuh tempo;
+  stop
+else (ya)
+endif
+
+if (Member valid dan berstatus active?) then (tidak)
+  :Tampilkan pesan "Member tidak dapat meminjam";
+  stop
+else (ya)
+endif
+
+if (Jumlah pinjaman aktif masih kurang dari 3?) then (tidak)
+  :Tampilkan pesan "Batas peminjaman tercapai";
+  stop
+else (ya)
+endif
+
+if (Member memiliki pinjaman terlambat?) then (ya)
+  :Tampilkan pesan "Member tidak dapat meminjam";
+  stop
+else (tidak)
+endif
+
+if (Member memiliki denda belum dibayar?) then (ya)
+  :Tampilkan pesan "Denda harus dilunasi terlebih dahulu";
+  stop
+else (tidak)
+endif
+
+:Generate kode peminjaman PJM-YYYYMMDD-XXXXXX;
+
+|Database|
+:Kunci baris buku dan cek available_stock;
+
+|Sistem|
+if (Stok tersedia lebih dari 0?) then (tidak)
+  :Batalkan transaksi;
+  :Tampilkan pesan "Stok buku tidak tersedia";
+  stop
+else (ya)
+endif
+
+|Database|
+:Simpan peminjaman (status = borrowed, processed_by = admin);
+:Kurangi available_stock sebanyak 1;
+:Commit transaksi;
+
+|Admin|
+:Tampilkan daftar peminjaman dan kode peminjaman;
+stop
+@enduml

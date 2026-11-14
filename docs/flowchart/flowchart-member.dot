@@ -1,0 +1,50 @@
+digraph flowchart_member {
+  label="Flowchart Member - Sistem Perpustakaan";
+  labelloc=t;
+  fontsize=16;
+  fontname="Helvetica";
+  rankdir=TB;
+  nodesep=0.5;
+  ranksep=0.6;
+  node [fontname="Helvetica", fontsize=12];
+  edge [fontname="Helvetica", fontsize=11];
+
+  mulai   [shape=ellipse, label="Mulai"];
+  login   [shape=parallelogram, label="Login / Registrasi"];
+  valid   [shape=diamond, label="Login\nvalid?"];
+  dash    [shape=box, style=rounded, label="Dashboard Member"];
+  menu    [shape=box, style=rounded, label="Pilih Menu"];
+
+  katalog [shape=box, style=rounded, label="Lihat Katalog Buku"];
+  pinjam  [shape=box, style=rounded, label="Lihat Pinjaman Saya"];
+  denda   [shape=box, style=rounded, label="Lihat Denda Saya"];
+  ada     [shape=diamond, label="Ada denda\nbelum bayar?"];
+  info    [shape=box, style=rounded, label="Bayar via Admin"];
+  profil  [shape=box, style=rounded, label="Update Profil"];
+
+  tampil  [shape=parallelogram, label="Tampilkan data"];
+  selesai [shape=ellipse, label="Selesai"];
+
+  mulai -> login -> valid;
+  valid -> login [label="Tidak"];
+  valid -> dash [label="Ya"];
+  dash -> menu;
+
+  menu -> katalog [label="Katalog"];
+  katalog -> tampil;
+
+  menu -> pinjam [label="Pinjaman"];
+  pinjam -> tampil;
+
+  menu -> denda [label="Denda"];
+  denda -> ada;
+  ada -> info [label="Ya"];
+  ada -> tampil [label="Tidak"];
+  info -> tampil;
+
+  menu -> profil [label="Profil"];
+  profil -> tampil;
+
+  tampil -> menu;
+  menu -> selesai [label="Keluar"];
+}

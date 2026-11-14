@@ -1,0 +1,75 @@
+@startuml
+title Kelola Data Member
+autonumber
+actor Admin as A
+participant "Halaman Member" as H
+participant "Sistem" as S
+participant "Data Member" as M
+database "Database" as DB
+
+== Melihat dan mencari member ==
+A -> H : Buka menu Member
+H -> S : Minta daftar member
+S -> M : Ambil semua data member
+M -> DB : Baca data member
+DB --> M : Daftar member
+M --> S : Daftar member
+S --> H : Tampilkan daftar member
+A -> H : Cari nama/kode/email atau filter status
+H -> S : Kirim kata kunci pencarian
+S -> M : Cari member yang sesuai
+M -> DB : Baca member yang cocok
+DB --> M : Hasil pencarian
+S --> H : Tampilkan hasil pencarian
+
+== Menambah member ==
+A -> H : Buka form tambah member
+H --> A : Form data member
+A -> H : Isi nama, email, password, telepon, alamat
+H -> S : Kirim data member baru
+S -> S : Periksa kelengkapan data dan keunikan email
+alt Data belum lengkap atau email sudah dipakai
+  S --> H : Tampilkan pesan kesalahan
+  H --> A : Perbaiki data
+else Data valid
+  S -> S : Buat nomor member otomatis
+  S -> M : Simpan akun member baru
+  M -> DB : Tulis data member
+  DB --> M : Data tersimpan
+  S --> H : Pesan member berhasil ditambahkan
+  H --> A : Tampilkan daftar member terbaru
+end
+
+== Memblokir atau mengaktifkan member ==
+A -> H : Klik tombol blokir atau aktifkan
+H -> S : Kirim permintaan perubahan status
+S -> M : Baca status member saat ini
+M --> S : Status member
+S -> S : Tentukan status baru
+S -> M : Simpan status baru
+M -> DB : Ubah status member
+DB --> M : Status tersimpan
+alt Member diaktifkan
+  S --> H : Pesan member berhasil diaktifkan
+else Member diblokir
+  S --> H : Pesan member berhasil diblokir
+end
+H --> A : Tampilkan status terbaru
+
+== Menghapus member ==
+A -> H : Klik tombol hapus member
+H -> S : Kirim permintaan hapus
+S -> M : Periksa pinjaman member
+M -> DB : Baca data peminjaman member
+DB --> M : Riwayat pinjaman
+alt Masih meminjam atau punya riwayat
+  S --> H : Pesan member tidak bisa dihapus
+  H --> A : Tampilkan penolakan
+else Tidak ada pinjaman
+  S -> M : Hapus akun member
+  M -> DB : Hapus data member
+  DB --> M : Data terhapus
+  S --> H : Pesan member berhasil dihapus
+  H --> A : Tampilkan daftar member terbaru
+end
+@enduml

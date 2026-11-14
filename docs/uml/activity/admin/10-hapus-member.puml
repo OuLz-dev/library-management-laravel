@@ -1,0 +1,31 @@
+@startuml
+title Activity Diagram — Hapus Member
+skinparam shadowing false
+
+|Admin|
+start
+:Klik tombol Hapus pada member;
+
+|Database|
+:Cek peminjaman aktif dan riwayat peminjaman member;
+
+|Sistem|
+if (Member masih meminjam buku?) then (ya)
+  :Tampilkan pesan "Member masih meminjam buku dan tidak bisa dihapus";
+  stop
+else (tidak)
+endif
+
+if (Member memiliki riwayat peminjaman?) then (ya)
+  :Tampilkan pesan "Member memiliki riwayat peminjaman dan tidak bisa dihapus";
+  stop
+else (tidak)
+endif
+
+|Database|
+:Hapus data member;
+
+|Admin|
+:Tampilkan daftar member dan pesan berhasil;
+stop
+@enduml

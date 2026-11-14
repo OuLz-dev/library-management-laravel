@@ -1,0 +1,66 @@
+@startuml
+title Activity Diagram — Pengembalian Buku
+skinparam shadowing false
+
+|Admin|
+start
+:Buka menu Pengembalian;
+:Klik tombol Kembalikan Buku;
+
+|Database|
+:Ambil peminjaman berstatus borrowed;
+
+|Admin|
+:Tampilkan form pengembalian;
+:Pilih peminjaman dan isi tanggal kembali;
+:Simpan;
+
+|Sistem|
+if (Tanggal kembali tidak melewati hari ini?) then (tidak)
+  :Tampilkan pesan tanggal tidak valid;
+  stop
+else (ya)
+endif
+
+if (Tanggal kembali tidak sebelum tanggal pinjam?) then (tidak)
+  :Tampilkan pesan tanggal tidak valid;
+  stop
+else (ya)
+endif
+
+|Database|
+:Cek status peminjaman dan keberadaan data pengembalian;
+
+|Sistem|
+if (Sudah pernah dikembalikan?) then (ya)
+  :Tampilkan pesan "Buku sudah dikembalikan";
+  stop
+else (tidak)
+endif
+
+:Hitung hari terlambat = tanggal kembali - jatuh tempo;
+if (Terlambat?) then (ya)
+  :Hitung denda = hari terlambat x Rp2.000;
+else (tidak)
+  :Denda = 0;
+endif
+
+|Database|
+:Ubah status peminjaman menjadi returned;
+:Simpan tanggal kembali dan processed_by;
+:Tambah available_stock sebanyak 1;
+
+|Sistem|
+if (Denda lebih dari 0?) then (ya)
+  |Database|
+  :Simpan denda (status = unpaid, paid_date = null);
+  |Admin|
+  :Tampilkan pesan terlambat dan jumlah denda;
+else (tidak)
+  |Admin|
+  :Tampilkan pesan pengembalian tepat waktu;
+endif
+
+:Tampilkan riwayat pengembalian terbaru;
+stop
+@enduml

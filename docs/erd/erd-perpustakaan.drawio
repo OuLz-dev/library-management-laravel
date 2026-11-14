@@ -1,0 +1,217 @@
+<mxfile host="app.diagrams.net" modified="2026-10-17T00:00:00.000Z" agent="OpenCode" version="24.0.0" type="device">
+  <diagram name="ERD Perpustakaan" id="erd-perpustakaan">
+    <mxGraphModel dx="1600" dy="1200" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ============ ENTITAS ============ -->
+        <mxCell id="e_users" value="Pengguna" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="180" y="400" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_members" value="Anggota Perpustakaan" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="380" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_transactions" value="Meminjam" style="rhombus;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="650" width="170" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="e_books" value="Buku" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1050" y="980" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="e_categories" value="Kategori" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="560" y="980" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="e_penalties" value="Denda" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=14;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="580" y="670" width="140" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="r_mendaftar" value="Mendaftar" style="rhombus;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="650" y="390" width="150" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="r_denda" value="Dikenai Denda" style="rhombus;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="830" y="660" width="130" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="r_kategori" value="Dikelompokkan" style="rhombus;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="790" y="965" width="150" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- ============ ATRIBUT PENGGUNA ============ -->
+        <mxCell id="a_u_id" value="id" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="60" y="150" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_u_name" value="name" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="190" y="140" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_u_email" value="email" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="330" y="150" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_u_password" value="password" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="470" y="170" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_u_role" value="role" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="250" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_u_status" value="status" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="190" y="250" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_u_phone" value="phone" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="330" y="250" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_u_address" value="address" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="60" y="330" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_u_lastlogin" value="last_login_at" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="300" y="330" width="140" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============ ATRIBUT ANGGOTA ============ -->
+        <mxCell id="a_m_id" value="id" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="990" y="160" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_m_code" value="member_code" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="1140" y="190" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_m_join" value="join_date" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1330" y="260" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_m_status" value="status" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="280" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============ ATRIBUT PEMINJAMAN (relasi) ============ -->
+        <mxCell id="a_t_code" value="transaction_code" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="780" y="545" width="170" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_t_borrow" value="borrow_date" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="580" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_t_due" value="due_date" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="650" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_t_return" value="return_date" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="720" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_t_status" value="status" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1380" y="790" width="100" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============ ATRIBUT BUKU ============ -->
+        <mxCell id="a_b_id" value="id" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="870" y="870" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_isbn" value="isbn" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="1000" y="865" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_title" value="title" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1150" y="870" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_cover" value="cover" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="870" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_author" value="author" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1430" y="920" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_publisher" value="publisher" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="870" y="1080" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_year" value="year" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1010" y="1085" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_stock" value="stock" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1120" y="1085" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_avail" value="available_stock" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1230" y="1080" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_b_desc" value="description" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1400" y="1080" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============ ATRIBUT KATEGORI ============ -->
+        <mxCell id="a_k_id" value="id" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="370" y="880" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_k_name" value="name" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="370" y="950" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_k_desc" value="description" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="1030" width="130" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============ ATRIBUT DENDA ============ -->
+        <mxCell id="a_p_id" value="id" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;fontStyle=4;" vertex="1" parent="1">
+          <mxGeometry x="380" y="570" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_p_days" value="days_late" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="365" y="640" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_p_fine" value="fine_amount" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="710" width="130" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_p_status" value="status" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="440" y="790" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="a_p_paid" value="paid_date" style="ellipse;whiteSpace=wrap;html=1;fillColor=#34495E;strokeColor=#22303E;fontColor=#FFFFFF;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="580" y="790" width="120" height="40" as="geometry" />
+        </mxCell>
+
+        <!-- ============ GARIS PENGGUNA - ATRIBUT ============ -->
+        <mxCell id="l1" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_id"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l2" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_name"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l3" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_email"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l4" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_password"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l5" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_role"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l6" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_status"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l7" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_phone"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l8" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_address"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l9" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_users" target="a_u_lastlogin"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ GARIS ANGGOTA - ATRIBUT ============ -->
+        <mxCell id="l10" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_members" target="a_m_id"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l11" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_members" target="a_m_code"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l12" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_members" target="a_m_join"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l13" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_members" target="a_m_status"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ GARIS PEMINJAMAN - ATRIBUT ============ -->
+        <mxCell id="l14" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_transactions" target="a_t_code"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l15" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_transactions" target="a_t_borrow"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l16" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_transactions" target="a_t_due"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l17" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_transactions" target="a_t_return"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l18" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_transactions" target="a_t_status"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ GARIS BUKU - ATRIBUT ============ -->
+        <mxCell id="l19" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_id"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l20" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_isbn"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l21" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_title"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l22" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_cover"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l23" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_author"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l24" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_publisher"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l25" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_year"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l26" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_stock"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l27" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_avail"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l28" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_books" target="a_b_desc"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ GARIS KATEGORI - ATRIBUT ============ -->
+        <mxCell id="l29" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_categories" target="a_k_id"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l30" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_categories" target="a_k_name"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l31" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_categories" target="a_k_desc"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ GARIS DENDA - ATRIBUT ============ -->
+        <mxCell id="l32" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_penalties" target="a_p_id"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l33" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_penalties" target="a_p_days"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l34" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_penalties" target="a_p_fine"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l35" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_penalties" target="a_p_status"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="l36" style="edgeStyle=none;html=1;strokeColor=#34495E;" edge="1" parent="1" source="e_penalties" target="a_p_paid"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- ============ GARIS RELASI ANTAR ENTITAS ============ -->
+        <mxCell id="r1" value="1" style="edgeStyle=none;html=1;strokeColor=#34495E;strokeWidth=2;endArrow=none;fontSize=12;fontStyle=1;fontColor=#22303E;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="e_users" target="r_mendaftar"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r2" value="1" style="edgeStyle=none;html=1;strokeColor=#34495E;strokeWidth=2;endArrow=none;fontSize=12;fontStyle=1;fontColor=#22303E;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="r_mendaftar" target="e_members"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r3" value="Many" style="edgeStyle=none;html=1;strokeColor=#34495E;strokeWidth=2;endArrow=none;fontSize=12;fontStyle=1;fontColor=#22303E;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="e_members" target="e_transactions"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r4" value="Many" style="edgeStyle=none;html=1;strokeColor=#34495E;strokeWidth=2;endArrow=none;fontSize=12;fontStyle=1;fontColor=#22303E;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="e_transactions" target="e_books"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r5" value="1" style="edgeStyle=none;html=1;strokeColor=#34495E;strokeWidth=2;endArrow=none;fontSize=12;fontStyle=1;fontColor=#22303E;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="r_denda" target="e_penalties"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r6" value="Many" style="edgeStyle=none;html=1;strokeColor=#34495E;strokeWidth=2;endArrow=none;fontSize=12;fontStyle=1;fontColor=#22303E;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="e_transactions" target="r_denda"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r7" value="1" style="edgeStyle=none;html=1;strokeColor=#34495E;strokeWidth=2;endArrow=none;fontSize=12;fontStyle=1;fontColor=#22303E;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="e_categories" target="r_kategori"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="r8" value="Many" style="edgeStyle=none;html=1;strokeColor=#34495E;strokeWidth=2;endArrow=none;fontSize=12;fontStyle=1;fontColor=#22303E;labelBackgroundColor=#FFFFFF;" edge="1" parent="1" source="r_kategori" target="e_books"><mxGeometry relative="1" as="geometry" /></mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

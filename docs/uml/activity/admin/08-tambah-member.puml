@@ -1,0 +1,26 @@
+@startuml
+title Activity Diagram — Tambah Member
+skinparam shadowing false
+
+|Admin|
+start
+:Buka form tambah member;
+:Isi nama, email, password, telepon, dan alamat;
+:Simpan;
+
+|Sistem|
+if (Data valid?) then (tidak)
+  :Tampilkan pesan kesalahan (email unik, password minimal 6 karakter);
+  stop
+else (ya)
+endif
+
+:Buat kode member MBR-xxxxx secara otomatis;
+
+|Database|
+:Simpan user baru (role = member, status = active, join_date = hari ini);
+
+|Admin|
+:Tampilkan daftar member dan pesan berhasil;
+stop
+@enduml

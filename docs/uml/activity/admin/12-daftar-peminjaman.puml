@@ -1,0 +1,30 @@
+@startuml
+title Activity Diagram — Daftar Peminjaman Aktif
+skinparam shadowing false
+
+|Admin|
+start
+:Buka menu Peminjaman;
+
+|Database|
+:Ambil peminjaman berstatus borrowed (10 per halaman);
+
+|Sistem|
+:Saring hanya peminjaman yang masih aktif;
+
+|Admin|
+:Tampilkan daftar peminjaman aktif;
+note right: Peminjaman yang sudah dikembalikan
+note right: tidak tampil di halaman ini
+
+if (Ingin mencari data?) then (ya)
+  :Masukkan kode pinjam, kode/nama/email/telepon member, atau judul buku;
+  |Database|
+  :Cari peminjaman aktif sesuai kata kunci;
+  |Admin|
+  :Tampilkan hasil pencarian + pagination;
+else (tidak)
+endif
+
+stop
+@enduml

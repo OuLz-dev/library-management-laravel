@@ -1,0 +1,60 @@
+@startuml
+title Peminjaman Buku
+autonumber
+actor Admin as A
+participant "Halaman\nPeminjaman" as H
+participant "Sistem" as S
+participant "Data Member" as M
+participant "Data Buku" as B
+participant "Data Peminjaman" as P
+database "Database" as DB
+
+A -> H : Buka form peminjaman
+H -> S : Minta data pendukung
+S -> M : Ambil member aktif
+M -> DB : Baca data member
+DB --> M : Daftar member aktif
+S -> B : Ambil buku yang tersedia
+B -> DB : Baca data buku
+DB --> B : Daftar buku tersedia
+S --> H : Tampilkan pilihan member dan buku
+H --> A : Form peminjaman
+
+A -> H : Pilih member, buku, tanggal pinjam, dan jatuh tempo
+H -> S : Kirim data peminjaman
+S -> S : Periksa kelengkapan dan tanggal
+note right of S : Tanggal pinjam hari ini,\njatuh tempo tidak melebihi batas
+alt Data tidak valid
+  S --> H : Tampilkan pesan kesalahan
+  H --> A : Perbaiki data
+else Data valid
+  S -> M : Periksa kelayakan member
+  M --> S : Status member dan jumlah pinjaman
+  alt Member tidak aktif atau pinjaman penuh
+    S --> H : Pesan member tidak bisa meminjam
+  else Member boleh meminjam
+    S -> M : Periksa denda yang belum dibayar
+    M -> DB : Baca data denda member
+    DB --> M : Denda member
+    alt Masih punya denda
+      S --> H : Pesan denda harus dilunasi dulu
+    else Tidak ada denda
+      S -> B : Periksa stok buku
+      B --> S : Stok tersedia
+      alt Stok habis
+        S --> H : Pesan stok buku tidak tersedia
+      else Stok tersedia
+        S -> S : Buat kode peminjaman otomatis
+        S -> P : Simpan peminjaman baru
+        P -> DB : Tulis data peminjaman
+        DB --> P : Peminjaman tersimpan
+        S -> B : Kurangi stok buku
+        B -> DB : Ubah jumlah stok
+        DB --> B : Stok diperbarui
+        S --> H : Pesan peminjaman berhasil + kode
+        H --> A : Tampilkan daftar peminjaman
+      end
+    end
+  end
+end
+@enduml

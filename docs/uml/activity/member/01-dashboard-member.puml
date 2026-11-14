@@ -1,0 +1,21 @@
+@startuml
+title Activity Diagram — Dashboard Member
+skinparam shadowing false
+
+|Member|
+start
+:Buka dashboard member;
+
+|Database|
+:Ambil jumlah pinjaman aktif dan total pinjaman;
+:Ambil total denda yang belum dibayar;
+:Ambil pinjaman lewat jatuh tempo untuk denda berjalan;
+:Ambil daftar pinjaman aktif dan 5 riwayat terakhir;
+
+|Sistem|
+:Hitung ringkasan dan status keterlambatan setiap pinjaman;
+
+|Member|
+:Tampilkan ringkasan pinjaman, denda, dan peringatan jatuh tempo;
+stop
+@enduml

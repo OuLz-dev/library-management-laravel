@@ -1,0 +1,29 @@
+@startuml
+title Katalog Buku
+autonumber
+actor Member as A
+participant "Halaman Katalog" as H
+participant "Sistem" as S
+participant "Data Buku" as B
+database "Database" as DB
+
+A -> H : Buka katalog buku
+H -> S : Minta daftar buku
+S -> B : Ambil semua buku
+B -> DB : Baca data buku dan kategori
+DB --> B : Daftar buku
+S --> H : Tampilkan katalog
+A -> H : Cari judul/penulis atau filter kategori/ketersediaan
+H -> S : Kirim pencarian dan filter
+S -> B : Cari buku yang sesuai
+B -> DB : Baca buku yang cocok
+DB --> B : Hasil pencarian
+S --> H : Tampilkan hasil
+A -> H : Pilih buku
+H -> S : Minta detail buku
+S -> B : Ambil detail buku
+B -> DB : Baca data buku
+DB --> B : Detail buku
+S --> H : Tampilkan detail
+H --> A : Informasi buku dan ketersediaan stok
+@enduml

@@ -1,0 +1,24 @@
+@startuml
+title Activity Diagram — Blokir / Aktifkan Member
+skinparam shadowing false
+
+|Admin|
+start
+:Klik tombol Blokir atau Aktifkan pada member;
+
+|Sistem|
+if (Status member saat ini?) then (active)
+  :Ubah status menjadi inactive (blokir);
+else (inactive)
+  :Ubah status menjadi active (aktifkan);
+endif
+
+|Database|
+:Simpan perubahan status member;
+
+|Admin|
+:Tampilkan daftar member dan pesan status berubah;
+note right: Member berstatus inactive tidak bisa login
+note right: dan tidak bisa meminjam buku
+stop
+@enduml

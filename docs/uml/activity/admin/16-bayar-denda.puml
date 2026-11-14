@@ -1,0 +1,29 @@
+@startuml
+title Activity Diagram — Bayar Denda
+skinparam shadowing false
+
+|Admin|
+start
+:Buka menu Denda;
+:Pilih denda berstatus unpaid;
+:Klik tombol Bayar;
+
+|Sistem|
+if (Denda sudah dibayar?) then (ya)
+  :Tampilkan pesan "Denda ini sudah dibayar";
+  stop
+else (tidak)
+endif
+
+|Admin|
+:Tampilkan form pembayaran denda;
+:Konfirmasi pembayaran;
+
+|Database|
+:Ubah status denda menjadi paid;
+:Isi paid_date = hari ini;
+
+|Admin|
+:Tampilkan daftar denda dan pesan berhasil;
+stop
+@enduml

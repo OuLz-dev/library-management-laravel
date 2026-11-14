@@ -1,0 +1,36 @@
+@startuml
+title Activity Diagram — Daftar Member
+skinparam shadowing false
+
+|Admin|
+start
+:Buka menu Member;
+
+|Database|
+:Ambil daftar user dengan role member (10 per halaman);
+
+|Sistem|
+:Susun daftar member dan pagination;
+
+|Admin|
+:Tampilkan daftar member;
+
+if (Ingin memfilter status?) then (ya)
+  :Pilih status active atau inactive;
+  |Database|
+  :Ambil member sesuai status;
+  |Admin|
+else (tidak)
+endif
+
+if (Ingin mencari member?) then (ya)
+  :Masukkan kode member, nama, email, atau nomor telepon;
+  |Database|
+  :Cari member sesuai kata kunci;
+  |Admin|
+  :Tampilkan hasil pencarian + pagination;
+else (tidak)
+endif
+
+stop
+@enduml

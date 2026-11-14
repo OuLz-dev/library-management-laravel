@@ -1,0 +1,30 @@
+@startuml
+title Activity Diagram — Update Profil
+skinparam shadowing false
+
+|Pengguna|
+start
+:Buka halaman profil;
+:Ubah nama, email, telepon, dan alamat;
+:Simpan perubahan;
+
+|Sistem|
+if (Nama terisi dan format email valid?) then (tidak)
+  :Tampilkan pesan kesalahan;
+  stop
+else (ya)
+endif
+
+if (Email sudah dipakai akun lain?) then (ya)
+  :Tampilkan pesan email sudah digunakan;
+  stop
+else (tidak)
+endif
+
+|Database|
+:Perbarui data profil pengguna;
+
+|Pengguna|
+:Tampilkan pesan "Profil berhasil diupdate";
+stop
+@enduml
